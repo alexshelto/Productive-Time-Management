@@ -1,0 +1,26 @@
+{
+  "name": "Productive-Time-Management",
+  "version": "1.0.0",
+  "description": "GUI tool to measure amount of effective studying and then adjust timer",
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexshelto/Productive-Time-Management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexshelto/Productive-Time-Management/issues"
+  },
+  "homepage": "https://github.com/alexshelto/Productive-Time-Management#readme",
+  "devDependencies": {
+    "electron": "^10.1.4"
+  },
+  "dependencies": {
+    "electron-reload": "^1.5.0"
+  }
+}
