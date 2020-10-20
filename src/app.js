@@ -99,26 +99,3 @@ ipcMain.on('time-entered', async(event, args) => {
 
 });
 
-// let timer = setInterval(() => {
-  //   count--;
-  //   if(count == -1){
-  //     clearInterval(timer)
-  //     //show message box and restart timer if needed
-  //     dialog.showMessageBox(win, options).then(userInput => {
-  //       console.log(userInput['response'])
-  //       if(userInput['response'] == 0) win.webContents.send('addTimeToTimer', 5)
-  //       else if(userInput['response'] == 1) win.webContents.send('addTimeToTimer', 10)
-  //       else {
-          
-  //         win.webContents.send('addTimeToTimer', unchangedtime)
-  //       }
-  //     });  
-  //   }
-  //   console.log(`Count ${count}`)
-  //   let hours = Math.floor(count / 60 / 60)
-  //   if(hours < 1) outputTime = `${Math.floor(count/60)}:${Math.floor(count % 60)}`
-  //   else outputTime = `${hours}:${Math.floor(count/60)}:${Math.floor(count % 60)}`
-
-  //   win.webContents.send('countdown', outputTime);
-  // }, 1000,);
-  //     //popup window
