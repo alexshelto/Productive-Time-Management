@@ -1,0 +1,15 @@
+Body {
+  background-color: aquamarine;
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.Content-container {
+  justify-content: space-evenly;
+}
+
+.botttom-container {
+  background-color: black;
+  transform: translateY(-100%);
+  display: inline-block;
+}
