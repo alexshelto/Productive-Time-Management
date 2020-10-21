@@ -1,5 +1,7 @@
 # Productive-Time-Management
-GUI tool to measure amount of effective studying and then adjust timer
+Desktop application to pace studying and give breaks
 
 
-#elecron && electron-reload
+### Dependencies
+* electron
+* electron-reload
