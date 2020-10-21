@@ -13,3 +13,17 @@ Body {
   transform: translateY(-100%);
   display: inline-block;
 }
+
+#hours {
+  float: left;
+}
+#minutes {
+  float:inherit
+}
+#seconds {
+  float: right;
+}
+.countdown {
+  font-weight: normal;
+  display: inline;
+}

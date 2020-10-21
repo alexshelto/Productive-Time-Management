@@ -90,17 +90,18 @@ ipcMain.on('time-entered', async(event, args) => {
     count -= 1;
     console.log(count);
     //creating output string and pushing to webpage for current time
-    let hours = Math.floor(count / 60 / 60).toString();
-    let mins = Math.floor(count/60).toString();
-    let secs = Math.floor(count % 60).toString();
-    if (hours.length < 2) hours = '0' + hours;
-    if (mins.length < 2) mins = '0' + mins;
-    if(secs.length < 2) secs = '0' + secs;
+    let hours = Math.floor(count / 60 / 60)
+    let mins = Math.floor(count/60)//.toString();
+    let secs = Math.floor(count % 60)//.toString();
+    // if (hours.length < 2) hours = '0' + hours;
+    // if (mins.length < 2) mins = '0' + mins;
+    // if(secs.length < 2) secs = '0' + secs;
   
-    if(hours < 1) outputTime = `${mins}:${secs}`;
-    else outputTime = `${hours}:${mins}:${secs}`;
+    // if(hours < 1) outputTime = `${mins}:${secs}`;
+    // else outputTime = `${hours}:${mins}:${secs}`;
+    let timeData = {'hours': hours, 'minutes': mins, 'seconds': secs}
 
-    win.webContents.send('countdown', outputTime);
+    win.webContents.send('countdown', timeData);
   }
   console.log("Timer completed");
 
