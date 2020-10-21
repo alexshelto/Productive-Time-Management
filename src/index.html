@@ -11,15 +11,15 @@
   <h1>Productivity timer</h1> 
   <div class=Content-Container>
 
-    <div class="countdown" id="theCount">0</div>
+    <!-- <div class="countdown" id="theCount">00:00</div> -->
 
     <div class="bottom-container">
       <div class="slidecontainer">
-        <input type="range" min="0" max="120" value="20" class="slider" id="myMinutes" oninput="this.nextElementSibling.value = this.value + ' minutes'">
+        <input type="range" min="0" max="90" value="20" class="slider" id="myMinutes" oninput="this.nextElementSibling.value = this.value + ' minutes'">
         <output id="slider-value">20 minutes</output>
       </div>
       <div class="submit-container">
-        <button type="button" id="submit-time-btn">Click Me!</button>
+        <button type="button" id="submit-time-btn">Start timer</button>
       </div>
     </div>
 
