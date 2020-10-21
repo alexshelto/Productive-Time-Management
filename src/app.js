@@ -14,8 +14,9 @@ let win
 
 function createWindow () {
     win = new BrowserWindow({
-    width: 500,
+    width: 350,
     height: 350,
+    // resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
@@ -85,7 +86,7 @@ ipcMain.on('time-entered', async(event, args) => {
   let count = parseInt(args['minutes']) * 60
 
   while(count > 0) {
-    await sleep(50); //change back to 1000
+    await sleep(100); /////change for debug
     count -= 1;
     console.log(count);
     //creating output string and pushing to webpage for current time
@@ -117,7 +118,7 @@ ipcMain.on('time-entered', async(event, args) => {
   else if(optionValue == 1) win.webContents.send('addTimeToTimer', 10)
   else {
     console.log('handle okay')
-    await sleep(1000);// * 5 * 60)
+    await sleep(1000)// * 5 * 60);
 
     let postBreakInput = new Promise((resolve, reject) => {
       shell.beep()

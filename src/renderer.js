@@ -19,8 +19,9 @@ document.getElementById('submit-time-btn').addEventListener('click' , ()=> {
 
 
 
+// // 
+// ipcRenderer.on('countdown', (event, args) => {
 
-ipcRenderer.on('countdown', (event, args) => {
-  document.getElementById('theCount').innerHTML = args;
-})
+//   document.getElementById('theCount').innerHTML = args;
+// })
 
