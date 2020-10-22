@@ -14,8 +14,8 @@ let win
 
 function createWindow () {
     win = new BrowserWindow({
-    width: 350,
-    height: 350,
+    width: 300,
+    height: 155,
     // resizable: false,
     webPreferences: {
       nodeIntegration: true
@@ -23,7 +23,7 @@ function createWindow () {
   })
 
   win.loadFile('./src/index.html')
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
@@ -68,7 +68,7 @@ function sleep(ms) {
 }
 
 let giveBreakAndPrompt = async() => {
-  let t = await sleep(5000); //5 sec break rn lol
+  let t = await sleep(5000 * 5 * 60); //5 sec break rn lol
   let postBreakInput = new Promise((resolve, reject) => {
   shell.beep()
   dialog.showMessageBox(win, backToWork).then(userInput => {
@@ -81,7 +81,7 @@ let giveBreakAndPrompt = async() => {
 
 async function countdownTimer( count){
   while(count > 0) {
-    let t = await sleep(100); /////change for debug
+    let t = await sleep(1000); /////change for debug
     count -= 1;
     console.log(count);
     //creating output string and pushing to webpage for current time
