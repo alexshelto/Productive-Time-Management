@@ -45,7 +45,7 @@ app.on('activate', () => {
 
 const options = {
   type: 'question',
-  buttons: ['5 more minutes', '10 more minutes', 'Okay'],
+  buttons: ['5 more minutes', '10 more minutes', 'Okay', 'Exit'],
   defaultId: 2,
   title: 'Question',
   message: 'Stretch and relax',
@@ -67,7 +67,51 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+let giveBreakAndPrompt = async() => {
+  let t = await sleep(5000); //5 sec break rn lol
+  let postBreakInput = new Promise((resolve, reject) => {
+  shell.beep()
+  dialog.showMessageBox(win, backToWork).then(userInput => {
+    resolve(userInput['response'])
+  }).catch(err => console.log('error in break and prompt'));
+})
+  return postBreakInput;
+}
 
+
+async function countdownTimer( count){
+  while(count > 0) {
+    let t = await sleep(100); /////change for debug
+    count -= 1;
+    console.log(count);
+    //creating output string and pushing to webpage for current time
+    let hours = Math.floor(count / 60 / 60)
+    let mins = Math.floor(count/60)//.toString();
+    let secs = Math.floor(count % 60)//.toString();
+
+    let timeData = {'hours': hours, 'minutes': mins, 'seconds': secs}
+
+    win.webContents.send('countdown', timeData);
+  }
+  let promptTimersUp = new Promise((resolve, reject) => {
+  shell.beep()
+  dialog.showMessageBox(win, options).then(userInput => {
+    resolve(userInput['response'])
+  }).catch(err => {
+    console.log("error in dialog box");
+    resolve(-1);
+  })
+})
+  console.log("Inside of the count function: ", promptTimersUp);
+  return promptTimersUp;
+}
+
+
+
+
+
+// Handling timer and break
+//
 ipcMain.on('time-entered', async(event, args) => {
   win.loadFile('./src/clock.html')
 
@@ -85,63 +129,31 @@ ipcMain.on('time-entered', async(event, args) => {
 
   let count = parseInt(args['minutes']) * 60
 
-  while(count > 0) {
-    await sleep(100); /////change for debug
-    count -= 1;
-    console.log(count);
-    //creating output string and pushing to webpage for current time
-    let hours = Math.floor(count / 60 / 60)
-    let mins = Math.floor(count/60)//.toString();
-    let secs = Math.floor(count % 60)//.toString();
-    // if (hours.length < 2) hours = '0' + hours;
-    // if (mins.length < 2) mins = '0' + mins;
-    // if(secs.length < 2) secs = '0' + secs;
-  
-    // if(hours < 1) outputTime = `${mins}:${secs}`;
-    // else outputTime = `${hours}:${mins}:${secs}`;
-    let timeData = {'hours': hours, 'minutes': mins, 'seconds': secs}
+  //do countdown and prompt times up window, gets value
+  let endTimerChoice = await countdownTimer(count);//.then((endTimerChoice) => {
 
-    win.webContents.send('countdown', timeData);
+  //handling user choice at end of timer popup
+  // choices:  (0: add 5min to timer), (1: add 10 mins), (2: okay), (3: exit)
+  if(endTimerChoice == 0) {
+    win.webContents.send('addTimeToTimer', 5);
   }
-  console.log("Timer completed");
-
-  //end timer
-
-  let userChoice = new Promise((resolve, reject) => {
-    shell.beep()
-    dialog.showMessageBox(win, options).then(userInput => {
-      resolve(userInput['response']);
-    })
-  })
-  let optionValue = await userChoice;
-
-  if(optionValue == 0) win.webContents.send('addTimeToTimer', 5)
-  else if(optionValue == 1) win.webContents.send('addTimeToTimer', 10)
-  else {
-    console.log('handle okay')
-    await sleep(1000)// * 5 * 60);
-
-    let postBreakInput = new Promise((resolve, reject) => {
-      shell.beep()
-      dialog.showMessageBox(win, backToWork).then(userInput => {
-        resolve(userInput['response'])
-      })
-    })
-
-    let postBreakResponse = await postBreakInput.then(choice => {
-      //choice 0 == okay: restarts timer with old time
-      if(choice == 0) {
-        console.log("Choice 0 okay")
-        win.webContents.send('addTimeToTimer', unchangedtime)
-
-      }
-      if(choice == 1) {
-        console.log("User selected exit")
-        win.loadFile('./src/index.html')
-        //sends back to the main page
-      }
-    });
-  }//end else 
+  else if (endTimerChoice == 1) {
+    win.webContents.send('addTimeToTimer', 10);
+  }
+  else if(endTimerChoice == 2) {
+    console.log("chose break");
+    response = await giveBreakAndPrompt();
+    //response (0: back to work, set timer, 1: exit)
+    if (response == 0) {
+      win.webContents.send('addTimeToTimer', unchangedtime);
+    } else { //exit to home
+      win.loadFile('./src/index.html');
+    }
+  }
+  else {  //else exit
+    console.log("user chose to exit to index");
+    win.loadFile('./src/index.html');
+  }
 
 });
 
