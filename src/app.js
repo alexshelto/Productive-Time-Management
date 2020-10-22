@@ -68,7 +68,7 @@ function sleep(ms) {
 }
 
 let giveBreakAndPrompt = async() => {
-  let t = await sleep(5000 * 5 * 60); //5 sec break rn lol
+  let t = await sleep(5000); //5 sec break rn lol
   let postBreakInput = new Promise((resolve, reject) => {
   shell.beep()
   dialog.showMessageBox(win, backToWork).then(userInput => {
@@ -81,7 +81,7 @@ let giveBreakAndPrompt = async() => {
 
 async function countdownTimer( count){
   while(count > 0) {
-    let t = await sleep(1000); /////change for debug
+    let t = await sleep(100); /////change for debug
     count -= 1;
     console.log(count);
     //creating output string and pushing to webpage for current time
@@ -142,10 +142,18 @@ ipcMain.on('time-entered', async(event, args) => {
   }
   else if(endTimerChoice == 2) {
     console.log("chose break");
+    win.loadFile('./src/breakPage.html');
     response = await giveBreakAndPrompt();
     //response (0: back to work, set timer, 1: exit)
     if (response == 0) {
-      win.webContents.send('addTimeToTimer', unchangedtime);
+      win.loadFile('./src/clock.html');
+      console.log('response: ', response);
+      console.log('unchanged time:  ',unchangedtime);
+      try {
+        win.webContents.send('addTimeToTimer', unchangedtime)
+      } catch(err) {console.log('err: ', err) };
+      // win.loadFile('./src/clock.html');
+
     } else { //exit to home
       win.loadFile('./src/index.html');
     }

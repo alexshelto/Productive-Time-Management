@@ -39,7 +39,7 @@ ipcRenderer.on('countdown', (event, args) => {
 
 //called after timer, user can add time after time is complete
 ipcRenderer.on('addTimeToTimer', (event, args) => {
-
+  console.log("recieved call to clock renderer to add time to timer: ", args);
   ipcRenderer.send('time-entered', {'addOnTime': true, 'minutes': args}) //start timer with inputted time
   console.log("Calling timer again")
 })
