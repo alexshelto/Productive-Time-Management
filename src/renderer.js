@@ -12,16 +12,17 @@ const { ipcRenderer } = require('electron')
 document.getElementById('submit-time-btn').addEventListener('click' , ()=> {
   //sending the time to update timer: regular expression to only send numebr
   let minutes = document.getElementById('slider-value').innerHTML.replace(/\D/g, "")
-
   ipcRenderer.send('time-entered', {'addOnTime': false, 'minutes': minutes} )
   console.log('clicked')
 })
 
 
 
-// // 
-// ipcRenderer.on('countdown', (event, args) => {
-
-//   document.getElementById('theCount').innerHTML = args;
-// })
-
+//event listener on time slider to update display
+let slider = document.getElementById('myMinutes')
+slider.addEventListener('input', changeTimeValue);
+function changeTimeValue(){
+  let suffix = 'minutes';
+  if(this.value == 1) { suffix = 'minute'; }
+  document.getElementById('slider-value').innerHTML = `${this.value} ${suffix}`;
+}

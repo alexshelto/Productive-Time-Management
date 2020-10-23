@@ -68,7 +68,7 @@ function sleep(ms) {
 }
 
 let giveBreakAndPrompt = async() => {
-  let t = await sleep(5000); //5 sec break rn lol
+  let t = await sleep(5 * 1000 * 60); 
   let postBreakInput = new Promise((resolve, reject) => {
   shell.beep()
   dialog.showMessageBox(win, backToWork).then(userInput => {
@@ -81,13 +81,16 @@ let giveBreakAndPrompt = async() => {
 
 async function countdownTimer( count){
   while(count > 0) {
-    let t = await sleep(100); /////change for debug
+    let t = await sleep(1000); /////change for debug
     count -= 1;
     console.log(count);
     //creating output string and pushing to webpage for current time
     let hours = Math.floor(count / 60 / 60)
     let mins = Math.floor(count/60)//.toString();
     let secs = Math.floor(count % 60)//.toString();
+
+    //if there are hours, remove those calculated minutes from mins
+    if(hours > 0) {mins = mins - (hours)*60; }
 
     let timeData = {'hours': hours, 'minutes': mins, 'seconds': secs}
 

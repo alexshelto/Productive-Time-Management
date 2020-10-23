@@ -5,7 +5,8 @@ Body {
 }
 
 .Content-container {
-  justify-content: space-evenly;
+  display: flex;
+  justify-content: center;
 }
 
 .botttom-container {
@@ -14,16 +15,33 @@ Body {
   display: inline-block;
 }
 
-#hours {
-  float: left;
+.submit-container {
+  display: flex;
+  justify-content: space-evenly;
+  vertical-align: text-bottom;
 }
-#minutes {
-  float:inherit
+
+.slider-container {
+  display: flex;
+  vertical-align: text-bottom;
 }
-#seconds {
-  float: right;
+
+.slider-output{
+  text-align: center;
 }
-.countdown {
+
+/* #sliderValue {
+  text-align: center;
+} */
+
+#pageHeader {
+  display: flex;
+  justify-content: center;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+#theCount {
+  display: flex;
+  justify-content: center;
   font-weight: normal;
-  display: inline;
 }
