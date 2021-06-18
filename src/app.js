@@ -2,15 +2,15 @@
 Alex Shelton
 
 
+
 */
 
 
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
-
 require('electron-reload')(__dirname);
 
-let win
 
+let win
 
 function createWindow () {
     win = new BrowserWindow({
@@ -26,16 +26,16 @@ function createWindow () {
   // win.webContents.openDevTools()
   
   win.on('closed', function() {
-    
       win = null;
   });
       
-    
-    
 }
 
 app.whenReady().then(createWindow)
 
+ /* Close window on exit (linux and windows)
+  * Mac OS keeps application running still for some reason
+  */
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -49,8 +49,9 @@ app.on('activate', () => {
 })
 
 
-
-
+/* Options for pop up menu when users productivity sprint is over
+ * They will have the option to go for 5 or 10 more minutes or take their break
+ */
 const options = {
   type: 'question',
   buttons: ['5 more minutes', '10 more minutes', 'Okay', 'Exit'],
@@ -60,6 +61,9 @@ const options = {
   detail: "You've been productive, take a 5 minute break",
 };
 
+/* Options for when User's 5 minute break is finished
+ * They can continue to their next productivity sprint or exit
+ */
 const backToWork = {
   buttons: ['Okay', 'Exit'],
   defaultId: 0,
@@ -68,12 +72,13 @@ const backToWork = {
   detail: "You've enjoyed your break time to get back to work",
 };
 
-
-
-
+/* Sleep function is used for hte users break
+ * Program simply sleeps for 5 minutes until its ready to start another timer
+ */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 let giveBreakAndPrompt = async() => {
   let t = await sleep(5 * 1000 * 60); 
@@ -91,7 +96,7 @@ async function countdownTimer( count){
   while(count > 0) {
     let t = await sleep(1000); /////change for debug
     count -= 1;
-    console.log(count);
+    //console.log(count);
     //creating output string and pushing to webpage for current time
     let hours = Math.floor(count / 60 / 60)
     let mins = Math.floor(count/60)//.toString();
@@ -173,6 +178,5 @@ ipcMain.on('time-entered', async(event, args) => {
     console.log("user chose to exit to index");
     win.loadFile('./src/index.html');
   }
-
 });
 
