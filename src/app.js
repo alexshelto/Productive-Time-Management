@@ -1,8 +1,6 @@
 /*
 Alex Shelton
 
-
-
 */
 
 
@@ -28,7 +26,6 @@ function createWindow () {
   win.on('closed', function() {
       win = null;
   });
-      
 }
 
 app.whenReady().then(createWindow)
@@ -78,7 +75,6 @@ const backToWork = {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 
 let giveBreakAndPrompt = async() => {
   let t = await sleep(5 * 1000 * 60); 
