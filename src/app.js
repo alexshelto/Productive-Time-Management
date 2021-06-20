@@ -1,10 +1,19 @@
 /*
 Alex Shelton
 
+
+
+TODO: Change options to Timer done options
 */
 
 
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
+
+// Require options Given to user after their productivity timer completes
+const SprintCompleteOptions = require('./user_options/SprintCompleteOptions.js')
+const BreakCompleteOptions = require('./user_options/BreakCompleteOptions')
+
+
 require('electron-reload')(__dirname);
 
 
@@ -46,28 +55,6 @@ app.on('activate', () => {
 })
 
 
-/* Options for pop up menu when users productivity sprint is over
- * They will have the option to go for 5 or 10 more minutes or take their break
- */
-const options = {
-  type: 'question',
-  buttons: ['5 more minutes', '10 more minutes', 'Okay', 'Exit'],
-  defaultId: 2,
-  title: 'Question',
-  message: 'Stretch and relax',
-  detail: "You've been productive, take a 5 minute break",
-};
-
-/* Options for when User's 5 minute break is finished
- * They can continue to their next productivity sprint or exit
- */
-const backToWork = {
-  buttons: ['Okay', 'Exit'],
-  defaultId: 0,
-  title: 'Back to work',
-  message: 'Time to get back to work',
-  detail: "You've enjoyed your break time to get back to work",
-};
 
 /* Sleep function is used for hte users break
  * Program simply sleeps for 5 minutes until its ready to start another timer
@@ -80,7 +67,7 @@ let giveBreakAndPrompt = async() => {
   let t = await sleep(5 * 1000 * 60); 
   let postBreakInput = new Promise((resolve, reject) => {
   shell.beep()
-  dialog.showMessageBox(win, backToWork).then(userInput => {
+  dialog.showMessageBox(win, BreakCompleteOptions).then(userInput => {
     resolve(userInput['response'])
   }).catch(err => console.log('error in break and prompt'));
 })
@@ -107,7 +94,7 @@ async function countdownTimer( count){
   }
   let promptTimersUp = new Promise((resolve, reject) => {
   shell.beep()
-  dialog.showMessageBox(win, options).then(userInput => {
+  dialog.showMessageBox(win, SprintCompleteOptions).then(userInput => {
     resolve(userInput['response'])
   }).catch(err => {
     console.log("error in dialog box");
@@ -176,3 +163,29 @@ ipcMain.on('time-entered', async(event, args) => {
   }
 });
 
+
+
+
+
+/* Options for pop up menu when users productivity sprint is over
+ * They will have the option to go for 5 or 10 more minutes or take their break
+const options = {
+  type: 'question',
+  buttons: ['5 more minutes', '10 more minutes', 'Okay', 'Exit'],
+  defaultId: 2,
+  title: 'Question',
+  message: 'Stretch and relax',
+  detail: "You've been productive, take a 5 minute break",
+};
+*/
+
+/* Options for when User's 5 minute break is finished
+ * They can continue to their next productivity sprint or exit
+const backToWork = {
+  buttons: ['Okay', 'Exit'],
+  defaultId: 0,
+  title: 'Back to work',
+  message: 'Time to get back to work',
+  detail: "You've enjoyed your break time to get back to work",
+};
+*/
